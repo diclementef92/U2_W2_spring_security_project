@@ -1,7 +1,6 @@
 package com.spring_security_project.auth.entity;
 
-import java.util.Set;
-
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -34,6 +33,7 @@ public class Device {
 	@Enumerated(EnumType.STRING)
 	private EDeviceState state;
 	
+	@Column(name = "model_description")
 	private String modelDescription;
 	
 	@ManyToOne
