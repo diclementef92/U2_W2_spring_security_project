@@ -21,6 +21,10 @@ public class DeviceService {
 	@Autowired
 	private DeviceRepository repo;
 
+	public Optional<Device> findById(Long id) {
+		return repo.findById(id);
+
+	}
 	public List<Device> getAllDevices() {
 		return repo.findAll();
 	}
@@ -43,5 +47,10 @@ public class DeviceService {
 
 	public Optional<Device> getDevicesByType(EDeviceType type) {
 		return repo.findByState(type.toString());
+	}
+
+	public boolean isAvailable(Long id) {
+		return repo.isAvailable(id);
+
 	}
 }
