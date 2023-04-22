@@ -1,21 +1,25 @@
 package com.spring_security_project.auth.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import com.spring_security_project.auth.entity.Device;
+import com.spring_security_project.auth.entity.EDeviceState;
+import com.spring_security_project.auth.entity.EDeviceType;
 
 public interface DeviceRepository extends JpaRepository<Device, Long> {
 
-	Optional<Device> findByType(String type);
+	Optional<List<Device>> findByType(EDeviceType type);
 
-	Optional<Device> findByState(String state);
+	Optional<List<Device>> findByState(EDeviceState state);
 
-	Optional<Device> findByModelDescription(String description);
+	Optional<List<Device>> findByModelDescription(String description);
 
-	@Query("Select d from Device d where d.state = 'Available' and d.id = ?1")
-	boolean isAvailable(Long id);
+//	// SELECT CASE WHEN COUNT(c) > 0 THEN true ELSE false END FROM Company c WHERE
+//	// c.name = :companyName"
+//	@Query("Select case when count(d)>0 Then true Else false END from Device d where d.state = 'Available' and d.id = ?1")
+//	boolean isAvailable(Long id);
 
 }

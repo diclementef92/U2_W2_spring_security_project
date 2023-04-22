@@ -1,6 +1,7 @@
 package com.spring_security_project.auth.service;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
@@ -103,5 +104,10 @@ public class AuthServiceImpl implements AuthService {
     	else if(role.equals("ROLE_MODERATOR")) return ERole.ROLE_MODERATOR;
     	else return ERole.ROLE_USER;
     }
+    
+	public Optional<User> findByUserName(String username) {
+		return userRepository.findByUsername(username);
+	   
+   }
     
 }

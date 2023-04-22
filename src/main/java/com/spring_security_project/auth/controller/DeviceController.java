@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.spring_security_project.auth.entity.Device;
+import com.spring_security_project.auth.service.AuthServiceImpl;
 import com.spring_security_project.auth.service.DeviceService;
 
 @RestController
@@ -21,14 +21,17 @@ public class DeviceController {
 	@Autowired
 	private DeviceService deviceService;
 
+	@Autowired
+	private AuthServiceImpl userService;
+
 	@GetMapping
 	public ResponseEntity<?> getAll() {
 		return new ResponseEntity<>(deviceService.getAllDevices(), HttpStatus.OK);
 	}
 
-	@GetMapping("/availables")
-	public ResponseEntity<?> getAvailablesDevices() {
-		return new ResponseEntity<>(deviceService.getAvailableDevices(), HttpStatus.OK);
+	@GetMapping("/{id_device}")
+	public ResponseEntity<?> getDeviceById(@PathVariable Long id_device) {
+		return new ResponseEntity<>(deviceService.findById(id_device), HttpStatus.OK);
 	}
 
 	@PostMapping
@@ -36,23 +39,28 @@ public class DeviceController {
 		return new ResponseEntity<>(deviceService.insertDevice(d), HttpStatus.CREATED);
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<?> isAvailable(@RequestParam Long id) {
-		if (deviceService.isAvailable(id))
-			return new ResponseEntity<>(HttpStatus.OK);
-		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-
+	@GetMapping("/availables")
+	public ResponseEntity<?> getAvailablesDevices() {
+		return new ResponseEntity<>(deviceService.getAvailableDevices(), HttpStatus.OK);
 	}
 
-	@PostMapping("/{username}")
-	public ResponseEntity<?> assignDevice(@RequestBody Long deviceId, @PathVariable String username) {
-		return null;
-//		Optional<Device> d = ;
-//		
-//		if (deviceService.findById(deviceId).isPresent()) {
-//			
-//		}
-//		return new ResponseEntity<>(deviceService.insertDevice(d), HttpStatus.CREATED);
+
+//	@GetMapping("/availables/{id}")
+//	public ResponseEntity<?> isAvailable(@RequestParam Long id) {
+//		if (deviceService.isAvailable(id))
+//			return new ResponseEntity<>(HttpStatus.OK);
+//		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+//	}
+
+	@PostMapping("/assign/{id_device}")
+	public ResponseEntity<?> assignDevice(@PathVariable Long id_device, @RequestBody String username) {
+
+		if (deviceService.isAvailable(id_device)) {
+			deviceService.assignUser(deviceService.findById(id_device).get(),
+					userService.findByUserName(username).get());
+			return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		}
+		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
 }
