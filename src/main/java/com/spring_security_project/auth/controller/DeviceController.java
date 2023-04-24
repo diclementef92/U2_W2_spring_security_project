@@ -55,11 +55,15 @@ public class DeviceController {
 	@PostMapping("/assign/{id_device}")
 	public ResponseEntity<?> assignDevice(@PathVariable Long id_device, @RequestBody String username) {
 
-		if (deviceService.isAvailable(id_device)) {
+		if (deviceService.isAvailable(id_device) && deviceService.findById(id_device).isPresent()
+				&& userService.findByUsername(username).isPresent()) {
 			deviceService.assignUser(deviceService.findById(id_device).get(),
-					userService.findByUserName(username).get());
+					userService.findByUsername(username).get());
 			return new ResponseEntity<>(HttpStatus.ACCEPTED);
 		}
+		System.out.println(deviceService.isAvailable(id_device));
+		System.out.println(deviceService.findById(id_device).get());
+		System.out.println(userService.findByUsername(username));
 		return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
 	}
 
