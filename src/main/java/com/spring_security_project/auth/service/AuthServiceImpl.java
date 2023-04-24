@@ -1,7 +1,6 @@
 package com.spring_security_project.auth.service;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
@@ -64,7 +63,7 @@ public class AuthServiceImpl implements AuthService {
     public String register(RegisterDto registerDto) {
 
         // add check for username exists in database
-        if(userRepository.existsByUsername(registerDto.getUsername())){
+		if (userRepository.existsByUserName(registerDto.getUsername())) {
             throw new MyAPIException(HttpStatus.BAD_REQUEST, "Username is already exists!.");
         }
 
@@ -76,7 +75,7 @@ public class AuthServiceImpl implements AuthService {
         User user = new User();
         user.setFirstName(registerDto.getFirstName());
         user.setLastName(registerDto.getLastName());
-        user.setUsername(registerDto.getUsername());
+		user.setUserName(registerDto.getUsername());
         user.setEmail(registerDto.getEmail());
         user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
 
@@ -105,9 +104,5 @@ public class AuthServiceImpl implements AuthService {
     	else return ERole.ROLE_USER;
     }
     
-	public Optional<User> findByUsername(String username) {
-		return userRepository.findByUsername(username);
-	   
-   }
     
 }

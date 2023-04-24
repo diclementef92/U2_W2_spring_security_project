@@ -3,18 +3,20 @@ package com.spring_security_project.auth.repository;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.spring_security_project.auth.entity.User;
 
+@Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    Optional<User> findByEmail(String email);
+	Optional<User> findByUserName(String username);
 
-    Optional<User> findByUsernameOrEmail(String username, String email);
+	Optional<User> findByEmail(String email);
 
-    Optional<User> findByUsername(String username);
+	Optional<User> findByUserNameOrEmail(String username, String email);
 
-    Boolean existsByUsername(String username);
+	Boolean existsByUserName(String username);
 
     Boolean existsByEmail(String email);
 }

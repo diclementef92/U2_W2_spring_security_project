@@ -65,8 +65,8 @@ public class DeviceService {
 		return false;
 	}
 
-	public void assignUser(Device d, User u) {
-		d.setUser(u);
+	public void assignUser(Device d, User user) {
+		d.setUser(user);
 	}
 
 }

@@ -4,11 +4,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import com.spring_security_project.auth.entity.Device;
 import com.spring_security_project.auth.entity.EDeviceState;
 import com.spring_security_project.auth.entity.EDeviceType;
 
+@Repository
 public interface DeviceRepository extends JpaRepository<Device, Long> {
 
 	Optional<List<Device>> findByType(EDeviceType type);
